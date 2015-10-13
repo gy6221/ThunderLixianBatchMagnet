@@ -23,7 +23,6 @@ function selectAll() {
 
 // 循环监视新建面板任务名称文本框是否为空，检测磁链是否解析完成
 function monitorTaskName() {
-    console.log("monitorTaskName");
     var taskNameField = $("#task_name");
     if (taskNameField.val() !== "") {
         console.log("taskName not empty!");
@@ -37,7 +36,6 @@ function monitorTaskName() {
 
 // 循环监视新建面板是否可见，检测任务是否提交完成
 function monitorFinish(){
-    console.log("monitorFinish");
 	var addTaskPanel = $("#add_task_panel")
 	if(!addTaskPanel.is(":visible")){
 		magnetArrToProcess.shift();
@@ -67,8 +65,6 @@ function processNext(){
 	} else{
 		//如果待处理磁链列表长度为0，表示已处理完成
 		//选中刚添加的任务
-		console.log("Process finished, check the checkbox");
-		console.log("magnetCount: "+magnetCount);
 		setTimeout(function(){
 			for(var i=0; i<magnetCount;i++){
 			$($(".in_ztclick").get(i)).attr("checked","checked");
@@ -79,7 +75,6 @@ function processNext(){
 
 // 校验输入
 function verifyInput(magnets){
-	console.log(magnets);
 	if(magnets.trim().length == 0){
 		return false;
 	}
@@ -122,6 +117,7 @@ function showMagnetInputPopup() {
             $(document.body).click();
         },
     });
+    $("#magnet_list").focus().select();
     $("#btn_magnet_input_ok").click(function(){
     	startAutoSubmit();
     });
