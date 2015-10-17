@@ -80,11 +80,18 @@ function verifyInput(magnets){
 	}
 	var magnetArr = magnets.split("\n");
 	if(magnetArr.length>0){
-		for(var i=0; i<magnetArr.length; i++){
-			if(magnetArr[i].length>0 && !magnetArr[i].startsWith("magnet:?xt=urn:btih:")){
+		var i=0;
+		while(i<magnetArr.length){
+			var line = magnetArr[i].trim();
+			if(line.length == 0){
+				magnetArr.splice(i, 1);
+				continue;
+			}
+			if(!line.startsWith("magnet:?xt=urn:btih:")){
 				return false;
 			}
-		}
+			i++;
+	        }
 		magnetArrToProcess = magnetArr;
 		magnetCount = magnetArrToProcess.length;
 		return true;
