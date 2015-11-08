@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ThunderLixianBatchMagnet
 // @namespace    http://upchan.tk/
-// @version      0.2
+// @version      0.3
 // @description  Automaticlly add multi magnet tasks to Xunlei Lixian.
 // @author       Up
 // @match        http://dynamic.cloud.vip.xunlei.com/user_task*
@@ -74,12 +74,15 @@ function processNext(){
 }
 
 // 校验输入
-function verifyInput(magnets){
+function verifyInput(magnets, reverse){
 	if(magnets.trim().length == 0){
 		return false;
 	}
 	var magnetArr = magnets.split("\n");
 	if(magnetArr.length>0){
+        if(reverse){
+            magnetArr.reverse();
+        }
 		var i=0;
 		while(i<magnetArr.length){
 			var line = magnetArr[i].trim();
@@ -104,9 +107,12 @@ function verifyInput(magnets){
 function startAutoSubmit() {
 	var flag = false;
 	var magnets = $("#magnet_list").val();
-	if(verifyInput(magnets)){
+    var reverse = $("#cb_magnet_reverse").attr("checked");
+   
+	if(verifyInput(magnets, reverse)){
 		$("#magnet_input_pop").hide();
 		processNext();
+        window.localStorage.setItem("batch_magnet_reverse", reverse);
 	} else{
 		showTipsAndAutoHide("输入内容格式不正确",5000);
 	}
@@ -118,12 +124,15 @@ function startAutoSubmit() {
 function showMagnetInputPopup() {
     $("#magnet_input_pop").tpl("magnet_input_tpl", {
         'title' : "输入磁链",
-        'content' : "<textarea id=\"magnet_list\" style=\"width: 100%; height: 260px;\"></textarea>      <button class=\"link_01\" id=\"btn_magnet_input_ok\">确定</button> "
+        'content' : "<textarea id=\"magnet_list\" style=\"width: 100%; height: 260px;\"></textarea>      <button class=\"link_01\" id=\"btn_magnet_input_ok\">确定</button> <input type=\"checkbox\" id=\"cb_magnet_reverse\" />反向解析"
     }).show().pop({
         onHide : function () {
             $(document.body).click();
         },
     });
+    if(window.localStorage.getItem("batch_magnet_reverse")){
+        $("#cb_magnet_reverse").attr("checked", "checked")
+    }
     $("#magnet_list").focus().select();
     $("#btn_magnet_input_ok").click(function(){
     	startAutoSubmit();
