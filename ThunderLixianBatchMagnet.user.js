@@ -107,7 +107,7 @@ function verifyInput(magnets, reverse){
 function startAutoSubmit() {
 	var flag = false;
 	var magnets = $("#magnet_list").val();
-    var reverse = $("#cb_magnet_reverse").attr("checked");
+    	var reverse = $("#cb_magnet_reverse").get(0).checked;
    
 	if(verifyInput(magnets, reverse)){
 		$("#magnet_input_pop").hide();
