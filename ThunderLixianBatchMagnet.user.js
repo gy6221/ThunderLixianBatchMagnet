@@ -130,7 +130,7 @@ function showMagnetInputPopup() {
             $(document.body).click();
         },
     });
-    if(window.localStorage.getItem("batch_magnet_reverse")){
+    if(JSON.parse(window.localStorage.getItem("batch_magnet_reverse"))){
         $("#cb_magnet_reverse").attr("checked", "checked")
     }
     $("#magnet_list").focus().select();
