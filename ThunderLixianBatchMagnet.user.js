@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ThunderLixianBatchMagnet
 // @namespace    http://upchan.tk/
-// @version      0.3
+// @version      0.4
 // @description  Automaticlly add multi magnet tasks to Xunlei Lixian.
 // @author       Up
 // @match        http://dynamic.cloud.vip.xunlei.com/user_task*
