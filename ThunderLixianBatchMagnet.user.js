@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ThunderLixianBatchMagnet
 // @namespace    http://upchan.tk/
-// @version      0.4
+// @version      0.5
 // @description  Automaticlly add multi magnet tasks to Xunlei Lixian.
 // @author       Up
 // @match        http://dynamic.cloud.vip.xunlei.com/user_task*
@@ -147,4 +147,13 @@ jQuery(function () {
     $("#batch_magnet_submit").click(function () {
         showMagnetInputPopup();
     })
+    
+    // 验证码输入框支持回车提交
+    $("input[name=verifycode]").live("keydown",	
+		function(event){
+			if(event.keyCode==13){
+				$("#down_but").get(0).click()
+			}
+		}
+	);
 });
