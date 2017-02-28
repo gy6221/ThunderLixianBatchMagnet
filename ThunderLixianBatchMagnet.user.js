@@ -1,12 +1,16 @@
 // ==UserScript==
 // @name         ThunderLixianBatchMagnet
 // @namespace    http://upchan.tk/
-// @version      0.5
+// @version      0.6
 // @description  Automaticlly add multi magnet tasks to Xunlei Lixian.
 // @author       Up
+// @exclude      http://res.stat.xunlei.com/pv.js
 // @match        http://dynamic.cloud.vip.xunlei.com/user_task*
 // @grant        none
+// @run-at document-body
 // ==/UserScript==
+
+
 
 // 待处理的磁链数组
 var magnetArrToProcess = null;
@@ -36,7 +40,7 @@ function monitorTaskName() {
 
 // 循环监视新建面板是否可见，检测任务是否提交完成
 function monitorFinish(){
-	var addTaskPanel = $("#add_task_panel")
+	var addTaskPanel = $("#add_task_panel");
 	if(!addTaskPanel.is(":visible")){
 		magnetArrToProcess.shift();
 		processNext();
@@ -75,7 +79,7 @@ function processNext(){
 
 // 校验输入
 function verifyInput(magnets, reverse){
-	if(magnets.trim().length == 0){
+	if(magnets.trim().length === 0){
 		return false;
 	}
 	var magnetArr = magnets.split("\n");
@@ -86,7 +90,7 @@ function verifyInput(magnets, reverse){
 		var i=0;
 		while(i<magnetArr.length){
 			var line = magnetArr[i].trim();
-			if(line.length == 0){
+			if(line.length === 0){
 				magnetArr.splice(i, 1);
 				continue;
 			}
@@ -131,7 +135,7 @@ function showMagnetInputPopup() {
         },
     });
     if(JSON.parse(window.localStorage.getItem("batch_magnet_reverse"))){
-        $("#cb_magnet_reverse").attr("checked", "checked")
+        $("#cb_magnet_reverse").attr("checked", "checked");
     }
     $("#magnet_list").focus().select();
     $("#btn_magnet_input_ok").click(function(){
@@ -139,21 +143,23 @@ function showMagnetInputPopup() {
     });
 }
 
-jQuery(function () {
-    $("#cloud_nav").before("<a href=\"#\" id=\"batch_magnet_submit\" title=\"批量提交磁链\" class=\"btn_m\"><span><em class=\"icdwlocal\">批量提交磁链</em></span></a>");
+function loadScript() {
+    $("#main_nav > ul").append("<li class=\"main_link\"><a href=\"#\" id=\"batch_magnet_submit\" title=\"批量提交磁链\" class=\"btn_m\"><span><em class=\"icdwlocal\">批量提交磁链</em></span></a></li>");
     $("body").append("<div id=\"magnet_input_pop\" class=\"pop_rwbox\" style=\"margin: 0px; display: none;\"></div>");
     $("body").append("<textarea id=\"magnet_input_tpl\" style=\"display: none;\">\"<div class=\"p_rw_pop\"><div class=\"tt_box onlytitle\"><h3>$[title]</h3></div><div class=\"prw_list\">$[content]</div><a href=\"#\" class=\"close\" title=\"关闭\">关闭</a></div>\"</textarea>");
 
     $("#batch_magnet_submit").click(function () {
         showMagnetInputPopup();
-    })
+    });
     
     // 验证码输入框支持回车提交
     $("input[name=verifycode]").live("keydown",	
 		function(event){
 			if(event.keyCode==13){
-				$("#down_but").get(0).click()
+				$("#down_but").get(0).click();
 			}
 		}
 	);
-});
+}
+
+loadScript();
